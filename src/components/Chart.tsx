@@ -6,15 +6,20 @@ import { margin, width, height } from "../constants";
 
 const MyChart = () => {
   const svgRef = useRef(null);
+  
   const [mean, setMean] = useState(0);
   const [sigma, setSigma] = useState(1);
+
   const [meanInput, setMeanInput] = useState(0);
   const [sigmaInput, setSigmaInput] = useState(1);
+
   const [selectedOption, setSelectedOption] = useState("below");
+  const [selectedOptionValue, setSelectedOptionValue] = useState("below");
 
   const handleCalculation = () => {
     setMean(meanInput);
     setSigma(sigmaInput);
+    setSelectedOption(selectedOptionValue)
   };
 
   useEffect(() => {
@@ -102,7 +107,7 @@ const MyChart = () => {
   }, [mean, sigma, selectedOption]);
 
   const handleRadioChange = (e: { target: { value: SetStateAction<string>; }; }) => {
-    setSelectedOption(e.target.value);
+    setSelectedOptionValue(e.target.value);
   };
 
   return (
@@ -130,7 +135,7 @@ const MyChart = () => {
             type="radio"
             name="option"
             value="below"
-            checked={selectedOption === "below"}
+            checked={selectedOptionValue === "below"}
             onChange={handleRadioChange}
           />
           <label htmlFor="below">Below</label>
@@ -140,7 +145,7 @@ const MyChart = () => {
             type="radio"
             name="option"
             value="between"
-            checked={selectedOption === "between"}
+            checked={selectedOptionValue === "between"}
             onChange={handleRadioChange}
           />
           <label htmlFor="between">Between</label>
@@ -150,7 +155,7 @@ const MyChart = () => {
             type="radio"
             name="option"
             value="above"
-            checked={selectedOption === "above"}
+            checked={selectedOptionValue === "above"}
             onChange={handleRadioChange}
           />
           <label htmlFor="above">Above</label>
