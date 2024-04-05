@@ -1,4 +1,4 @@
-import { SetStateAction, useEffect, useRef, useState } from "react";
+import {useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
 import { generateData } from "../utils/dataGeneration";
 import { Data } from "../types";
@@ -10,16 +10,17 @@ const MyChart = () => {
   const [mean, setMean] = useState(0);
   const [sigma, setSigma] = useState(1);
 
-  const [meanInput, setMeanInput] = useState(0);
-  const [sigmaInput, setSigmaInput] = useState(1);
-
   const [selectedOption, setSelectedOption] = useState("below");
-  const [selectedOptionValue, setSelectedOptionValue] = useState("below");
+
 
   const handleCalculation = () => {
-    setMean(meanInput);
-    setSigma(sigmaInput);
-    setSelectedOption(selectedOptionValue)
+    const meanValue = parseFloat((document.getElementById("meanInput") as HTMLInputElement).value);
+    const sigmaValue = parseFloat((document.getElementById("sigmaInput") as HTMLInputElement).value);
+    const selectedOptionValue = (document.querySelector('input[name="option"]:checked') as HTMLInputElement).value;
+
+    setMean(meanValue);
+    setSigma(sigmaValue);
+    setSelectedOption(selectedOptionValue);
   };
 
   useEffect(() => {
@@ -106,59 +107,37 @@ const MyChart = () => {
     };
   }, [mean, sigma, selectedOption]);
 
-  const handleRadioChange = (e: { target: { value: SetStateAction<string>; }; }) => {
-    setSelectedOptionValue(e.target.value);
-  };
-
   return (
     <div>
       <svg ref={svgRef}></svg>
       <div>
-        mean
+        Mean
         <input
-          name="mean"
-          value={meanInput}
-          onChange={e => setMeanInput(Number(e.target.value))}
+          defaultValue={mean}
+          type="number"
+          id="meanInput"
         />
       </div>
       <div>
-        deviation
+        Deviation
         <input
-          name="sigma"
-          value={sigmaInput}
-          onChange={e => setSigmaInput(Number(e.target.value))}
-        />
+          defaultValue={sigma}
+          type="number"
+          id="sigmaInput"        
+          />
       </div>
       <div>
         <div>
-          <input
-            type="radio"
-            name="option"
-            value="below"
-            checked={selectedOptionValue === "below"}
-            onChange={handleRadioChange}
-          />
-          <label htmlFor="below">Below</label>
+          <input type="radio" name="option" value="below" defaultChecked />
+          <label htmlFor="below">Below </label>
         </div>
         <div>
-          <input
-            type="radio"
-            name="option"
-            value="between"
-            checked={selectedOptionValue === "between"}
-            onChange={handleRadioChange}
-          />
-          <label htmlFor="between">Between</label>
+          <input type="radio" name="option" value="between" />
+          <label htmlFor="between">Between </label>
         </div>
         <div>
-          <input
-            type="radio"
-            name="option"
-            value="above"
-            checked={selectedOptionValue === "above"}
-            onChange={handleRadioChange}
-          />
-          <label htmlFor="above">Above</label>
+          <input type="radio" name="option" value="above" />
+          <label htmlFor="above">Above </label>
         </div>
       </div>
       <button onClick={handleCalculation}>calculate</button>

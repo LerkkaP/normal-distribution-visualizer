@@ -3,7 +3,7 @@ import Chart from "./components/Chart";
 const App = () => {
   return (
     <div>
-      <h1>Normal Distribution Chart</h1>
+      <h1>Normal distribution visualizer</h1>
       <Chart />
     </div>
   );
