@@ -6,21 +6,34 @@ import { margin, width, height } from "../constants";
 
 const MyChart = () => {
   const svgRef = useRef(null);
-  
   const [mean, setMean] = useState(0);
   const [sigma, setSigma] = useState(1);
+  const [selectedArea, setselectedArea] = useState("below");
+  
+  const [zBelow, setzBelow] = useState(1.96)
+  const [zAbove, setzAbove] = useState(1.96)
 
-  const [selectedOption, setSelectedOption] = useState("below");
-
+  const [zBetweenBelow, setzBetweenBelow] = useState(-1.96)
+  const [zBetweenAbove, setzBetweenAbove] = useState(1.96)
 
   const handleCalculation = () => {
     const meanValue = parseFloat((document.getElementById("meanInput") as HTMLInputElement).value);
     const sigmaValue = parseFloat((document.getElementById("sigmaInput") as HTMLInputElement).value);
-    const selectedOptionValue = (document.querySelector('input[name="option"]:checked') as HTMLInputElement).value;
+    const selectedAreaValue = (document.querySelector('input[name="option"]:checked') as HTMLInputElement).value;
+
+    const zBelowValue = parseFloat((document.getElementById("zBelow") as HTMLInputElement).value);
+    const zAboveValue = parseFloat((document.getElementById("zAbove") as HTMLInputElement).value);
+
+    const zBetweenBelowValue = parseFloat((document.getElementById("zBetweenBelow") as HTMLInputElement).value);
+    const zBetweenAboveValue = parseFloat((document.getElementById("zBetweenAbove") as HTMLInputElement).value);
 
     setMean(meanValue);
     setSigma(sigmaValue);
-    setSelectedOption(selectedOptionValue);
+    setselectedArea(selectedAreaValue);
+    setzBelow(zBelowValue)
+    setzAbove(zAboveValue)
+    setzBetweenBelow(zBetweenBelowValue)
+    setzBetweenAbove(zBetweenAboveValue)
   };
 
   useEffect(() => {
@@ -70,17 +83,17 @@ const MyChart = () => {
 
     // Determine indices for coloring the area based on selected option
     let indexStart: number, indexEnd: number;
-    switch (selectedOption) {
+    switch (selectedArea) {
       case "below":
         indexStart = 0;
-        indexEnd = d3.bisectLeft(data.map(d => d.q), mean);
+        indexEnd = d3.bisectLeft(data.map(d => d.q), zBelow);
         break;
       case "between":
-        indexStart = d3.bisectLeft(data.map(d => d.q), mean);
-        indexEnd = d3.bisectLeft(data.map(d => d.q), 120);
+        indexStart = d3.bisectLeft(data.map(d => d.q), zBetweenBelow);
+        indexEnd = d3.bisectLeft(data.map(d => d.q), zBetweenAbove);
         break;
       case "above":
-        indexStart = d3.bisectRight(data.map(d => d.q), 2);
+        indexStart = d3.bisectRight(data.map(d => d.q), zAbove);
         indexEnd = data.length;
         break;
       default:
@@ -105,7 +118,7 @@ const MyChart = () => {
     return () => {
       svg.selectAll("*").remove();
     };
-  }, [mean, sigma, selectedOption]);
+  }, [mean, sigma, selectedArea, zBelow, zAbove, zBetweenBelow, zBetweenAbove]);
 
   return (
     <div>
@@ -130,14 +143,35 @@ const MyChart = () => {
         <div>
           <input type="radio" name="option" value="below" defaultChecked />
           <label htmlFor="below">Below </label>
+          <input           
+            defaultValue={zBelow}
+            type="number"
+            id="zBelow"
+          />
         </div>
         <div>
           <input type="radio" name="option" value="between" />
           <label htmlFor="between">Between </label>
+          <input           
+            defaultValue={zBetweenBelow}
+            type="number"
+            id="zBetweenBelow"
+          />
+          and
+          <input           
+            defaultValue={zBetweenAbove}
+            type="number"
+            id="zBetweenAbove"
+          />
         </div>
         <div>
           <input type="radio" name="option" value="above" />
           <label htmlFor="above">Above </label>
+          <input           
+            defaultValue={zAbove}
+            type="number"
+            id="zAbove"
+          />
         </div>
       </div>
       <button onClick={handleCalculation}>calculate</button>
