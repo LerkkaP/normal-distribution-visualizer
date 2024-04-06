@@ -1,20 +1,21 @@
-import {useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
 import { generateData } from "../utils/dataGeneration";
 import { Data } from "../types";
 import { margin, width, height } from "../constants";
+import RadioButton from "./RadioButton";
 
 const MyChart = () => {
   const svgRef = useRef(null);
   const [mean, setMean] = useState(0);
   const [sigma, setSigma] = useState(1);
-  const [selectedArea, setselectedArea] = useState("below");
-  
-  const [zBelow, setzBelow] = useState(1.96)
-  const [zAbove, setzAbove] = useState(1.96)
-
-  const [zBetweenBelow, setzBetweenBelow] = useState(-1.96)
-  const [zBetweenAbove, setzBetweenAbove] = useState(1.96)
+  const [selectedArea, setSelectedArea] = useState("below");
+  const [rangeValues, setRangeValues] = useState({
+    zBelow: 1.96,
+    zAbove: 1.96,
+    zBetweenBelow: -1.96,
+    zBetweenAbove: 1.96
+  });
 
   const handleCalculation = () => {
     const meanValue = parseFloat((document.getElementById("meanInput") as HTMLInputElement).value);
@@ -23,17 +24,18 @@ const MyChart = () => {
 
     const zBelowValue = parseFloat((document.getElementById("zBelow") as HTMLInputElement).value);
     const zAboveValue = parseFloat((document.getElementById("zAbove") as HTMLInputElement).value);
-
     const zBetweenBelowValue = parseFloat((document.getElementById("zBetweenBelow") as HTMLInputElement).value);
     const zBetweenAboveValue = parseFloat((document.getElementById("zBetweenAbove") as HTMLInputElement).value);
 
     setMean(meanValue);
     setSigma(sigmaValue);
-    setselectedArea(selectedAreaValue);
-    setzBelow(zBelowValue)
-    setzAbove(zAboveValue)
-    setzBetweenBelow(zBetweenBelowValue)
-    setzBetweenAbove(zBetweenAboveValue)
+    setSelectedArea(selectedAreaValue);
+    setRangeValues({
+      zBelow: zBelowValue,
+      zAbove: zAboveValue,
+      zBetweenBelow: zBetweenBelowValue,
+      zBetweenAbove: zBetweenAboveValue
+    });
   };
 
   useEffect(() => {
@@ -86,14 +88,14 @@ const MyChart = () => {
     switch (selectedArea) {
       case "below":
         indexStart = 0;
-        indexEnd = d3.bisectLeft(data.map(d => d.q), zBelow);
+        indexEnd = d3.bisectLeft(data.map(d => d.q), rangeValues.zBelow);
         break;
       case "between":
-        indexStart = d3.bisectLeft(data.map(d => d.q), zBetweenBelow);
-        indexEnd = d3.bisectLeft(data.map(d => d.q), zBetweenAbove);
+        indexStart = d3.bisectLeft(data.map(d => d.q), rangeValues.zBetweenBelow);
+        indexEnd = d3.bisectLeft(data.map(d => d.q), rangeValues.zBetweenAbove);
         break;
       case "above":
-        indexStart = d3.bisectRight(data.map(d => d.q), zAbove);
+        indexStart = d3.bisectRight(data.map(d => d.q), rangeValues.zAbove);
         indexEnd = data.length;
         break;
       default:
@@ -118,7 +120,8 @@ const MyChart = () => {
     return () => {
       svg.selectAll("*").remove();
     };
-  }, [mean, sigma, selectedArea, zBelow, zAbove, zBetweenBelow, zBetweenAbove]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [handleCalculation]);
 
   return (
     <div>
@@ -141,34 +144,31 @@ const MyChart = () => {
       </div>
       <div>
         <div>
-          <input type="radio" name="option" value="below" defaultChecked />
-          <label htmlFor="below">Below </label>
+          <RadioButton label={"Below"} value={"below"} />
           <input           
-            defaultValue={zBelow}
+            defaultValue={rangeValues.zBelow}
             type="number"
             id="zBelow"
           />
         </div>
         <div>
-          <input type="radio" name="option" value="between" />
-          <label htmlFor="between">Between </label>
+          <RadioButton label={"Between"} value={"between"} />
           <input           
-            defaultValue={zBetweenBelow}
+            defaultValue={rangeValues.zBetweenBelow}
             type="number"
             id="zBetweenBelow"
           />
           and
           <input           
-            defaultValue={zBetweenAbove}
+            defaultValue={rangeValues.zBetweenAbove}
             type="number"
             id="zBetweenAbove"
           />
         </div>
         <div>
-          <input type="radio" name="option" value="above" />
-          <label htmlFor="above">Above </label>
+          <RadioButton label={"Above"} value={"above"} />
           <input           
-            defaultValue={zAbove}
+            defaultValue={rangeValues.zAbove}
             type="number"
             id="zAbove"
           />
