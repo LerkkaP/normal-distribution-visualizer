@@ -144,7 +144,7 @@ const MyChart = () => {
       </div>
       <div>
         <div>
-          <RadioButton label={"Below"} value={"below"} />
+          <RadioButton label={"Below"} value={"below"}  checked={true}/>
           <input           
             defaultValue={rangeValues.zBelow}
             type="number"
@@ -152,7 +152,7 @@ const MyChart = () => {
           />
         </div>
         <div>
-          <RadioButton label={"Between"} value={"between"} />
+          <RadioButton label={"Between"} value={"between"}  checked={false}/>
           <input           
             defaultValue={rangeValues.zBetweenBelow}
             type="number"
@@ -166,7 +166,7 @@ const MyChart = () => {
           />
         </div>
         <div>
-          <RadioButton label={"Above"} value={"above"} />
+          <RadioButton label={"Above"} value={"above"}  checked={false}/>
           <input           
             defaultValue={rangeValues.zAbove}
             type="number"
