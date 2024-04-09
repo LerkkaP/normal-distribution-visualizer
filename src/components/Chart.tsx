@@ -20,7 +20,6 @@ const MyChart = () => {
   const handleCalculation = () => {
     const meanValue = parseFloat((document.getElementById("meanInput") as HTMLInputElement).value);
     const sigmaValue = parseFloat((document.getElementById("sigmaInput") as HTMLInputElement).value);
-    const selectedAreaValue = (document.querySelector('input[name="option"]:checked') as HTMLInputElement).value;
 
     const zBelowValue = parseFloat((document.getElementById("zBelow") as HTMLInputElement).value);
     const zAboveValue = parseFloat((document.getElementById("zAbove") as HTMLInputElement).value);
@@ -29,7 +28,6 @@ const MyChart = () => {
 
     setMean(meanValue);
     setSigma(sigmaValue);
-    setSelectedArea(selectedAreaValue);
     setRangeValues({
       zBelow: zBelowValue,
       zAbove: zAboveValue,
@@ -37,7 +35,7 @@ const MyChart = () => {
       zBetweenAbove: zBetweenAboveValue
     });
   };
-
+  
   useEffect(() => {
     const data = generateData(mean, sigma);
 
@@ -122,6 +120,11 @@ const MyChart = () => {
     };
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [handleCalculation]);
+  
+
+  const handleRadioItemClick = (value: string) => {
+    setSelectedArea(value);
+  };
 
   return (
     <div>
@@ -142,17 +145,17 @@ const MyChart = () => {
           id="sigmaInput"        
           />
       </div>
-      <div>
-        <div>
-          <RadioButton label={"Below"} value={"below"}  checked={true}/>
+      <div className="radio-container">
+        <div className={`radio-container__item ${selectedArea === 'below' ? 'selected' : ''}`} onClick={() => handleRadioItemClick('below')}>
+          <RadioButton label={"Below"} value={"below"} checked={selectedArea === 'below'} />
           <input           
             defaultValue={rangeValues.zBelow}
             type="number"
             id="zBelow"
           />
         </div>
-        <div>
-          <RadioButton label={"Between"} value={"between"}  checked={false}/>
+        <div className={`radio-container__item ${selectedArea === 'between' ? 'selected' : ''}`} onClick={() => handleRadioItemClick('between')}>
+          <RadioButton label={"Between"} value={"between"} checked={selectedArea === 'between'} />
           <input           
             defaultValue={rangeValues.zBetweenBelow}
             type="number"
@@ -165,8 +168,8 @@ const MyChart = () => {
             id="zBetweenAbove"
           />
         </div>
-        <div>
-          <RadioButton label={"Above"} value={"above"}  checked={false}/>
+        <div className={`radio-container__item ${selectedArea === 'above' ? 'selected' : ''}`} onClick={() => handleRadioItemClick('above')}>
+          <RadioButton label={"Above"} value={"above"} checked={selectedArea === 'above'} />
           <input           
             defaultValue={rangeValues.zAbove}
             type="number"
