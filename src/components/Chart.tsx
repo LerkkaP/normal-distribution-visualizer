@@ -4,7 +4,7 @@ import { generateData } from "../utils/dataGeneration";
 import { Data } from "../types";
 import { margin, width, height } from "../constants";
 import RadioButton from "./RadioButton";
-
+import apiService from "../services/api"
 const MyChart = () => {
   const svgRef = useRef(null);
   const [mean, setMean] = useState(0);
@@ -34,6 +34,7 @@ const MyChart = () => {
       zBetweenBelow: zBetweenBelowValue,
       zBetweenAbove: zBetweenAboveValue
     });
+    apiService.areaBetween({ mean: mean, sd: sigma, value_lower: rangeValues.zBetweenBelow, value_upper: rangeValues.zBetweenAbove })
   };
   
   useEffect(() => {
