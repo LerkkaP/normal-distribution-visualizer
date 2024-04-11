@@ -9,6 +9,14 @@ export interface RadioButtonProps {
     checked: boolean;
 }
 
+export interface RequestData {
+    value?: number;
+    value_lower?: number;
+    value_upper?: number;
+    mean: number;
+    sd: number;
+}
+
 export interface ApiBaseProps {
     mean: number;
     sd: number;

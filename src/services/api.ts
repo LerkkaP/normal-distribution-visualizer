@@ -1,4 +1,4 @@
-import { ApiPropsSingle, ApiPropsDouble } from "../types";
+import { ApiPropsSingle, ApiPropsDouble, RequestData } from "../types";
 import { apiBaseUrl } from "../constants";
 
 const areaBelow = async ({ mean, sd, value}: ApiPropsSingle) => {
@@ -37,7 +37,7 @@ const areaBetween = async ({value_lower, value_upper, mean, sd}: ApiPropsDouble)
     }
   }
 
-const makeRequest = async (url, data) => {
+const makeRequest = async (url: string, data: RequestData) => {
     const response = await fetch(url, {
       method: "POST",
       headers: {
