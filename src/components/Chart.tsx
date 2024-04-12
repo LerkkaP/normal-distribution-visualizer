@@ -5,6 +5,7 @@ import { Data } from "../types";
 import { margin, width, height } from "../constants";
 import RadioButton from "./RadioButton";
 import apiService from "../services/api"
+import RcodeDisplay from "./RcodeDisplay";
 const MyChart = () => {
   const svgRef = useRef(null);
   const [mean, setMean] = useState(0);
@@ -179,6 +180,7 @@ const MyChart = () => {
         </div>
       </div>
       <button onClick={handleCalculation}>calculate</button>
+      <RcodeDisplay />
     </div>
   );
 };
