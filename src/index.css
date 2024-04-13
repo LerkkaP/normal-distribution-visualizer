@@ -104,5 +104,6 @@ button:focus-visible {
 /* CLIPBOARD */
 
 .clipboard-container {
+  display: flex;
   border: 1px solid black
 }

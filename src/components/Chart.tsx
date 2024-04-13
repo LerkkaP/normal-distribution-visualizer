@@ -180,9 +180,17 @@ const MyChart = () => {
         </div>
       </div>
       <button onClick={handleCalculation}>calculate</button>
-      <RcodeDisplay />
+      <RcodeDisplay
+       label={selectedArea} 
+       zBelow={rangeValues.zBelow}
+       zAbove={rangeValues.zAbove} 
+       zBetweenBelow={rangeValues.zBetweenBelow}
+       zBetweenAbove={rangeValues.zBetweenAbove}
+       mean={mean}
+       sd={sigma}
+       />
     </div>
   );
 };
-
+// below, between, above
 export default MyChart;

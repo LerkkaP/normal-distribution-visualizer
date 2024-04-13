@@ -17,6 +17,14 @@ export interface RequestData {
     sd: number;
 }
 
+export interface ClipBoard extends ApiBaseProps {
+    label: string
+    zBelow: number;
+    zAbove: number;
+    zBetweenBelow: number;
+    zBetweenAbove: number;
+}
+
 export interface ApiBaseProps {
     mean: number;
     sd: number;
