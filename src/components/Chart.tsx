@@ -154,8 +154,8 @@ const MyChart = () => {
           id="sigmaInput"        
           />
       </div>
-      <div className="radio-container">
-        <div className={`radio-container__item ${selectedArea === 'below' ? 'selected' : ''}`} onClick={() => handleRadioItemClick('below')}>
+      <div>
+        <div onClick={() => handleRadioItemClick('below')}>
           <RadioButton label={"Below"} value={"below"} checked={selectedArea === 'below'} />
           <input           
             defaultValue={rangeValues.zBelow}
@@ -163,7 +163,7 @@ const MyChart = () => {
             id="zBelow"
           />
         </div>
-        <div className={`radio-container__item ${selectedArea === 'between' ? 'selected' : ''}`} onClick={() => handleRadioItemClick('between')}>
+        <div onClick={() => handleRadioItemClick('between')}>
           <RadioButton label={"Between"} value={"between"} checked={selectedArea === 'between'} />
           <input           
             defaultValue={rangeValues.zBetweenBelow}
@@ -177,7 +177,7 @@ const MyChart = () => {
             id="zBetweenAbove"
           />
         </div>
-        <div className={`radio-container__item ${selectedArea === 'above' ? 'selected' : ''}`} onClick={() => handleRadioItemClick('above')}>
+        <div onClick={() => handleRadioItemClick('above')}>
           <RadioButton label={"Above"} value={"above"} checked={selectedArea === 'above'} />
           <input           
             defaultValue={rangeValues.zAbove}

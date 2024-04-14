@@ -68,39 +68,6 @@ button:focus-visible {
   }
 }
 
-.radio-container {
-  display: flex;
-}
-
-.radio-container__item {
-  cursor: pointer;
-  display: inline-block;
-  padding: 5px 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  margin-right: 10px;
-}
-
-.radio-container__item:hover {
-  background-color: red;
-}
-
-.radio-container__item:focus {
-  background-color: #f0f0f0;
-}
-
-.radio-container__item.selected {
-  background-color: #fff;
-}
-
-.radio-container__item input[type="radio"] {
-  display: none;
-}
-
-.radio-container__item input[type="radio"]:checked + label {
-  color: #fff;
-}
-
 /* CLIPBOARD */
 
 .clipboard-container {
