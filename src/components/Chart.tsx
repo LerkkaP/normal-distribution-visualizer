@@ -37,9 +37,14 @@ const MyChart = () => {
     });
     apiService.areaBetween({ mean: mean, sd: sigma, value_lower: rangeValues.zBetweenBelow, value_upper: rangeValues.zBetweenAbove })
   };
+
+  const [data, setData] = useState<Data[]>([]);
+
+  useEffect(() => {
+    setData(generateData(mean, sigma));
+  }, [mean, sigma])
   
   useEffect(() => {
-    const data = generateData(mean, sigma);
 
     const x = d3.scaleLinear().range([0, width]);
     const y = d3.scaleLinear().range([height, 0]);
@@ -114,6 +119,8 @@ const MyChart = () => {
       .append("path")
       .datum(data)
       .attr("class", "area")
+      .transition()
+      .duration(500)
       .style("fill", "#ADD8E6")
       .attr("d", area);
 

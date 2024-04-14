@@ -12,7 +12,7 @@ const RcodeDisplay: React.FC<ClipBoard> = ({ zBelow, zAbove, zBetweenBelow, zBet
                 newClipBoard = `pnorm(${zBelow}, ${mean}, ${sd})`;
                 break;
             case "between":
-                newClipBoard = `diff(pnorm(c(${zBetweenBelow}, ${zBetweenAbove}) ${mean}, ${sd}))`
+                newClipBoard = `diff(pnorm(c(${zBetweenBelow}, ${zBetweenAbove}), ${mean}, ${sd}))`
                 break;
             case "above":
                 newClipBoard = `pnorm(${zAbove}, ${mean}, ${sd}, lower.tail = FALSE)`;
