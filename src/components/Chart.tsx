@@ -17,6 +17,8 @@ const MyChart = () => {
     zBetweenBelow: -1.96,
     zBetweenAbove: 1.96
   });
+  const [answer, setAnswer] = useState(0.975)
+  const [loading, setLoading] = useState(false)
 
   const handleCalculation = () => {
     const meanValue = parseFloat((document.getElementById("meanInput") as HTMLInputElement).value);
@@ -35,7 +37,37 @@ const MyChart = () => {
       zBetweenBelow: zBetweenBelowValue,
       zBetweenAbove: zBetweenAboveValue
     });
-    apiService.areaBetween({ mean: mean, sd: sigma, value_lower: rangeValues.zBetweenBelow, value_upper: rangeValues.zBetweenAbove })
+
+    const fetchData = async () => {
+      setLoading(true);
+
+      try {
+        let result;
+    
+        switch (selectedArea) {
+          case "below":
+            result = await apiService.areaBelow({ value: rangeValues.zBelow, mean: mean, sd: sigma});
+            setAnswer(result);
+            break;
+          case "between":
+            result = await apiService.areaBetween({ mean: mean, sd: sigma, value_lower: rangeValues.zBetweenBelow, value_upper: rangeValues.zBetweenAbove });
+            setAnswer(result);
+            break;
+          case "above":
+            result = await apiService.areaAbove({ value: rangeValues.zAbove, mean: mean, sd: sigma});
+            setAnswer(result);
+            break;
+          default:
+            break;
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        setLoading(false)
+      }
+    };
+    
+    fetchData();
   };
 
   const [data, setData] = useState<Data[]>([]);
@@ -130,7 +162,6 @@ const MyChart = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [handleCalculation]);
   
-
   const handleRadioItemClick = (value: string) => {
     setSelectedArea(value);
   };
@@ -140,6 +171,7 @@ const MyChart = () => {
       <svg ref={svgRef}></svg>
       <div>
         Mean
+        {" "}
         <input
           defaultValue={mean}
           type="number"
@@ -148,6 +180,7 @@ const MyChart = () => {
       </div>
       <div>
         Deviation
+        {" "}
         <input
           defaultValue={sigma}
           type="number"
@@ -186,6 +219,15 @@ const MyChart = () => {
           />
         </div>
       </div>
+      <div>
+        {loading ? (
+          <div>Loading...</div>
+        ) : (
+          <div>
+            Answer: {answer}
+          </div>
+        )}
+      </div>
       <button onClick={handleCalculation}>calculate</button>
       <RcodeDisplay
        label={selectedArea} 
@@ -199,5 +241,5 @@ const MyChart = () => {
     </div>
   );
 };
-// below, between, above
+
 export default MyChart;

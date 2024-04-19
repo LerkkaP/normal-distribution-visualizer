@@ -1,13 +1,13 @@
 import { ApiPropsSingle, ApiPropsDouble, RequestData } from "../types";
 import { apiBaseUrl } from "../constants";
 
-const areaBelow = async ({ mean, sd, value}: ApiPropsSingle) => {
+const areaBelow = async ({ value, mean, sd}: ApiPropsSingle) => {
     const url = `${apiBaseUrl}/area_below`;
     const data = { value, mean, sd }
   
     try {
       const result = await makeRequest(url, data);
-      console.log("Area below probability:", result);
+      return result[0]
     } catch (error) {
       console.error('Error calculating area above:', error);
     }
@@ -19,7 +19,7 @@ const areaAbove = async ({value, mean, sd}: ApiPropsSingle) => {
   
     try {
       const result = await makeRequest(url, data);
-      console.log("Area above probability:", result);
+      return result[0]
     } catch (error) {
       console.error('Error calculating area above:', error);
     }
@@ -31,7 +31,7 @@ const areaBetween = async ({value_lower, value_upper, mean, sd}: ApiPropsDouble)
   
     try {
       const result = await makeRequest(url, data);
-      console.log("Area between Probability:", result);
+      return result[0]
     } catch (error) {
       console.error('Error calculating area above:', error);
     }
