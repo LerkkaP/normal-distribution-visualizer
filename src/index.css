@@ -72,5 +72,14 @@ button:focus-visible {
 
 .clipboard-container {
   display: flex;
-  border: 1px solid black
+  border: 1px solid #F0F8FF;
+  border-radius: 10px;
+  padding: 1rem;
+  background-color: #161b22;
+  color: #F0F8FF;
+  justify-content: center;
+}
+
+.rcode-section {
+  margin-bottom: 1rem;
 }
