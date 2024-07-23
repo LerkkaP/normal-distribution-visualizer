@@ -3,12 +3,6 @@ export interface Data {
     p: number;
 }
 
-export interface RadioButtonProps {
-    label: string;
-    value: string;
-    checked: boolean;
-}
-
 export interface RequestData {
     value?: number;
     value_lower?: number;
@@ -38,3 +32,11 @@ export interface ApiPropsDouble extends ApiBaseProps {
     value_lower: number;
     value_upper: number;
 }
+
+export interface CardProps {
+    label: string;
+    value: string;
+    selectedArea: string;
+    handleCardClick: (value: string) => void;
+    children: ReactNode;
+  }

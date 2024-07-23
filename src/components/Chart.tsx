@@ -4,6 +4,7 @@ import { generateData } from "../utils/dataGeneration";
 import { Data } from "../types";
 import { margin, width, height } from "../constants";
 import RadioButton from "./RadioButton";
+import Card from "./Card";
 import apiService from "../services/api"
 import RcodeDisplay from "./RcodeDisplay";
 const MyChart = () => {
@@ -162,7 +163,7 @@ const MyChart = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [handleCalculation]);
   
-  const handleRadioItemClick = (value: string) => {
+  const handleCardClick = (value: string) => {
     setSelectedArea(value);
   };
 
@@ -187,37 +188,55 @@ const MyChart = () => {
           id="sigmaInput"        
           />
       </div>
-      <div>
-        <div onClick={() => handleRadioItemClick('below')}>
-          <RadioButton label={"Below"} value={"below"} checked={selectedArea === 'below'} />
-          <input           
+      <div className="options">
+        <Card label="Below" value="below" selectedArea={selectedArea} handleCardClick={handleCardClick}>
+          <input
             defaultValue={rangeValues.zBelow}
             type="number"
             id="zBelow"
+            onClick={(e) => {
+              e.stopPropagation();
+              handleCardClick('below');
+            }}
+            onFocus={() => handleCardClick('below')}
           />
-        </div>
-        <div onClick={() => handleRadioItemClick('between')}>
-          <RadioButton label={"Between"} value={"between"} checked={selectedArea === 'between'} />
-          <input           
+        </Card>
+        <Card label="Between" value="between" selectedArea={selectedArea} handleCardClick={handleCardClick}>
+          <input
             defaultValue={rangeValues.zBetweenBelow}
             type="number"
             id="zBetweenBelow"
+            onClick={(e) => {
+              e.stopPropagation();
+              handleCardClick('between');
+            }}
+            onFocus={() => handleCardClick('between')}
+
           />
           and
-          <input           
+          <input
             defaultValue={rangeValues.zBetweenAbove}
             type="number"
             id="zBetweenAbove"
+            onClick={(e) => {
+              e.stopPropagation();
+              handleCardClick('between');
+            }}
+            onFocus={() => handleCardClick('between')}
           />
-        </div>
-        <div onClick={() => handleRadioItemClick('above')}>
-          <RadioButton label={"Above"} value={"above"} checked={selectedArea === 'above'} />
-          <input           
+        </Card>
+        <Card label="Above" value="above" selectedArea={selectedArea} handleCardClick={handleCardClick}>
+          <input
             defaultValue={rangeValues.zAbove}
             type="number"
             id="zAbove"
+            onClick={(e) => {
+              e.stopPropagation();
+              handleCardClick('above');
+            }}
+            onFocus={() => handleCardClick('above')}
           />
-        </div>
+        </Card>
       </div>
       <div>
         {loading ? (

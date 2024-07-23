@@ -74,3 +74,16 @@ button:focus-visible {
   display: flex;
   border: 1px solid black
 }
+
+/* OPTIONS */
+
+.options {
+  display: flex;
+  padding: 3rem 0;
+  gap: 1.5rem;
+  justify-content: center;
+}
+
+.options__item {
+  background-color: grey;
+}
