@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { ClipBoard } from "../types";
+import copyIcon from "../assets/copy.svg"
+
 
 const RcodeDisplay: React.FC<ClipBoard> = ({ zBelow, zAbove, zBetweenBelow, zBetweenAbove, mean, sd, label }) => {
     const [clipBoard, setClipBoard] = useState("pnorm(value, mean, sd, lower.tail = FALSE)");
@@ -26,14 +28,14 @@ const RcodeDisplay: React.FC<ClipBoard> = ({ zBelow, zAbove, zBetweenBelow, zBet
     }, [zBelow, zAbove, zBetweenBelow, zBetweenAbove, mean, sd, label]);
 
     return (
-        <div>
+        <div className="rcode-section">
             <h2>Corresponding R code</h2>
             <div className="clipboard-container">
                 <p>{clipBoard}</p>
                 <button 
                     onClick={() =>  navigator.clipboard.writeText(clipBoard)}
-                    >
-                    Copy
+                    >                
+                    <img src={copyIcon}/>
                 </button>
             </div>
         </div>
